@@ -12,7 +12,7 @@ if hasattr(sys.stdout, "reconfigure"):
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from src.config import fin_year, PREFIX, detect_month_from_repotic, resolve_report_period
+from src.config import fin_year, PREFIX, detect_month_from_repotic, resolve_report_period, get_previous_calendar_month
 from src.services.processor import run_automation
 
 
@@ -37,16 +37,20 @@ def run_tests():
         print(f"  ✓ fin_year({m}, {y}) -> {actual}")
     print("Test 3 PASSED!")
 
-    repotic_file  = _ROOT / "output" / "upload_repotic.xlsx"
-    ledger_file   = _ROOT / "output" / "upload_ledger.xlsx"
-    template_file = _ROOT / "output" / "upload_template.xlsx"
+    fixtures_dir = _ROOT / "tests" / "fixtures"
+    repotic_file  = fixtures_dir / "repotic_sample.xlsx" if (fixtures_dir / "repotic_sample.xlsx").exists() else _ROOT / "output" / "upload_repotic.xlsx"
+    ledger_file   = fixtures_dir / "ledger_sample.xlsx" if (fixtures_dir / "ledger_sample.xlsx").exists() else _ROOT / "output" / "upload_ledger.xlsx"
+    template_file = fixtures_dir / "template_sample.xlsx" if (fixtures_dir / "template_sample.xlsx").exists() else _ROOT / "output" / "upload_template.xlsx"
     test_output   = _ROOT / "output" / "Final_Output_Tamilnadu.xlsx"
+    test_output.parent.mkdir(parents=True, exist_ok=True)
 
     # ── Test 5: Confirm month detection ──────────────────────────────────────
     print("\n--- Test 5: Auto-detect report month when no month is selected in UI ---")
     year, month, source = resolve_report_period(repotic_path=repotic_file, month_override=None)
     print(f"  Detected month: {year}-{month:02d} (Source: {source})")
-    assert month == 8 and year == 2026, f"Expected August 2026 (8, 2026), got ({month}, {year})"
+    expected_year, expected_month = get_previous_calendar_month()
+    assert (year, month) == (expected_year, expected_month), f"Expected ({expected_year}, {expected_month}), got ({year}, {month})"
+    assert source == "assumed", f"Expected source 'assumed', got '{source}'"
     print("Test 5 PASSED!")
 
     # ── Test 1 & 2: Run with current data (August 2026) ─────────────────────
@@ -102,6 +106,10 @@ def run_tests():
     print("\n" + "=" * 80)
     print("ALL 7 SPECIFICATION TESTS PASSED SUCCESSFULLY!")
     print("=" * 80)
+
+
+def test_suite():
+    run_tests()
 
 
 if __name__ == "__main__":

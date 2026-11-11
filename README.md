@@ -1,5 +1,7 @@
 # REPOTIC Automation
 
+[![CI](https://github.com/Vighneswaran-official/repotic-automation/actions/workflows/ci.yml/badge.svg)](https://github.com/Vighneswaran-official/repotic-automation/actions/workflows/ci.yml)
+
 An automated data processing pipeline and Flask web application that converts multi-channel e-commerce sales reports (**Flipkart**, **Meesho**, **Snapdeal**) into a standardized **26-column Tally import format** (`Final_Output_Tamilnadu.xlsx`).
 
 ---
@@ -138,6 +140,20 @@ The output file will be written to `output/Final_Output_Tamilnadu.xlsx`.
 | *(Ledger Lookup)*     | Sales Ledger                    | Looked up sales ledger |
 
 All other template columns (`GSTIN`, `Product_Name`, `HSNCode`, `UOM`, etc.) are left blank according to Tally import specifications.
+
+---
+
+## 🧪 Testing
+
+Run the full verification test suite (7 specification tests including financial year calculation, month detection, multi-channel invoice numbering, and HSN compliance):
+
+```bash
+# Using pytest
+pytest tests/test_all.py -v
+
+# Or using Python runner
+python tests/test_all.py
+```
 
 ---
 
