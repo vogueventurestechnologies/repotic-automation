@@ -1,6 +1,6 @@
 # REPOTIC Automation
 
-[![CI](https://github.com/Vighneswaran-official/repotic-automation/actions/workflows/ci.yml/badge.svg)](https://github.com/Vighneswaran-official/repotic-automation/actions/workflows/ci.yml)
+[![CI](https://github.com/vogueventurestechnologies/repotic-automation/actions/workflows/ci.yml/badge.svg)](https://github.com/vogueventurestechnologies/repotic-automation/actions/workflows/ci.yml)
 
 An automated data processing pipeline and Flask web application that converts multi-channel e-commerce sales reports (**Flipkart**, **Meesho**, **Snapdeal**) into a standardized **26-column Tally import format** (`Final_Output_Tamilnadu.xlsx`).
 
@@ -64,7 +64,7 @@ repotic-automation/
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/Vighneswaran-official/repotic-automation.git
+git clone https://github.com/vogueventurestechnologies/repotic-automation.git
 cd repotic-automation
 ```
 
